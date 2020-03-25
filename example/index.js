@@ -1,39 +1,10 @@
-#!/usr/bin/env electron
+var ipc = window.middlewareClient
 
-const electron = require('electron')
-const path = require('path')
+ipc.send('start-second-long-running-process', function (err) {
+  if (err) console.error(err)
+  console.log('done!')
+})
 
-var _socketName = 'my-app'
-var bg = createBgWindow(_socketName)
-
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-
-// Create a hidden background window
-function createBgWindow (socketName) {
-  var win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: 700,
-    height: 700,
-    show: true,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
-  console.log('loading bg window')
-  var BG = 'file://' + path.join(__dirname, '/background.html')
-  win.loadURL(BG)
-  win.webContents.on('did-finish-load', () => {
-    bg.webContents.openDevTools()
-    win.webContents.send('set-socket', {
-      name: socketName
-    })
-  })
-  win.on('closed', () => {
-    console.log('background window closed')
-    app.quit()
-  })
-  return win
-}
-
+ipc.on('something-to-frontend', function (arg) {
+  console.log('got thing!', arg)
+})

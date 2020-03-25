@@ -6,6 +6,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okdistribute/electron-rabbit.git"
+  },
+  "keywords": [
+    "electron", 
+    "rpc",
+    "ipc",
+    "hidden window",
+    "hidden",
+    "fast",
+    "interprocess",
+    "communication",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/okdistribute/electron-rabbit/issues"
+  },
+  "homepage": "https://github.com/okdistribute/electron-rabbit#readme",
   "author": "Karissa McKelvey",
   "license": "MIT",
   "dependencies": {

@@ -1,5 +1,5 @@
 var handlers = {}
-const ipc = require('hoist')
+const ipc = require('electron-rabbit')
 
 handlers['start-first-long-running-process'] = async function () {
   return new Promise((resolve, reject) => {

@@ -2,14 +2,14 @@
 
 const electron = require('electron')
 const path = require('path')
-const middleware = require('hoist')
+const rabbit = require('electron-rabbit')
 const app = electron.app
 
 var SOCKET_NAME = 'my-app'
 var bg, win, ipc
 
-app.once('ready', function () {
-  ipc = new middleware.Client()
+app.once('ready', () => {
+  ipc = new rabbit.Client()
   ipc.connect(SOCKET_NAME)
   bg = createBgWindow(SOCKET_NAME)
   win = createWindow(SOCKET_NAME)
@@ -18,12 +18,12 @@ app.once('ready', function () {
     console.log('done!')
   })
 
-  ipc.on('error', function (err) {
+  ipc.on('error', (err) => {
     console.error(err)
     electron.dialog.showErrorBox('Error', err)
   })
 
-  win.on('closed', function () {
+  win.on('closed', () => {
     win = null
     bg = null
     app.quit()
@@ -34,7 +34,7 @@ const BrowserWindow = electron.BrowserWindow
 
 // Create a hidden background window
 function createBgWindow (socketName) {
-  var win = new BrowserWindow({
+  var bg = new BrowserWindow({
     x: 0,
     y: 0,
     width: 700,
@@ -44,19 +44,20 @@ function createBgWindow (socketName) {
       nodeIntegration: true
     }
   })
+  bg.webContents.openDevTools()
   var BG = 'file://' + path.join(__dirname, '/background.html')
-  win.loadURL(BG)
-  win.webContents.on('did-finish-load', () => {
+  bg.loadURL(BG)
+  bg.webContents.on('did-finish-load', () => {
     bg.webContents.openDevTools()
-    win.webContents.send('set-socket', {
+    bg.webContents.send('set-socket', {
       name: socketName
     })
   })
-  win.on('closed', () => {
-    console.log('background window closed')
+  bg.on('closed', () => {
+    console.log('background bgdow closed')
     app.quit()
   })
-  return win
+  return bg
 }
 
 function createWindow (socketName) {
@@ -65,12 +66,13 @@ function createWindow (socketName) {
     title: 'My App',
     show: true,
     webPreferences: {
-      preload: path.resolve(__dirname, 'index-preload.js')
+      preload: path.resolve(__dirname, 'client-preload.js')
     }
   })
 
   win.loadURL(INDEX)
 
+  win.webContents.openDevTools()
   win.webContents.on('did-finish-load', () => {
     win.webContents.send('set-socket', {
       name: socketName

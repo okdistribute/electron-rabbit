@@ -1,7 +1,7 @@
 const serverHandlers = require('./my-app-ipc')
-const hoist = require('hoist')
+const rabbit = require('electron-rabbit')
 
 const { ipcRenderer } = require('electron')
 ipcRenderer.on('set-socket', (event, { name }) => {
-  hoist.init(name, serverHandlers)
+  rabbit.init(name, serverHandlers)
 })

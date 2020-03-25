@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^8.2.0",
-    "hoist": "file:.."
+    "electron-rabbit": "file:.."
   }
 }

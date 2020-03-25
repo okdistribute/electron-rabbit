@@ -1,6 +1,6 @@
 # electron-rabbit
 
-Inter-process communication for electron to speed up your apps.
+Simple inter process communication to speed up your electron apps. 
 
 ## Setup
 

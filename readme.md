@@ -2,6 +2,10 @@
 
 Simple inter process communication to speed up your electron apps. 
 
+## Why? 
+
+Read [this post by @jlongster](https://jlongster.com/secret-of-good-electron-apps) to learn why you would use this. 
+
 ## Setup
 
 See `example/app.js` for a working example.

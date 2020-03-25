@@ -46,7 +46,7 @@ handlers['start-a-long-running-process'] = async function () {
 module.exports = handlers
 ```
 
-client.js
+`client.js`
 ```js
 var ipc = window.middlewareClient
 
@@ -110,7 +110,6 @@ Arguments:
 
 Send an event with the given name and arguments from the background to the
 client.
-
 
 ### ```electron-rabbit.findOpenSocket(namespace)```
 

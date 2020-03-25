@@ -1,8 +1,8 @@
 var ipc = window.middlewareClient
 
-ipc.send('start-second-long-running-process', function (err) {
+ipc.send('start-second-long-running-process', 'my-argument', function (err) {
   if (err) console.error(err)
-  console.log('done!')
+  console.log('second long running process done!')
 })
 
 ipc.on('something-to-frontend', function (arg) {

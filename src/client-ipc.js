@@ -10,6 +10,10 @@ class IPC {
   }
 
   send (name, args, cb) {
+    if (!cb && typeof args === 'function') {
+      cb = args
+      args = {}
+    }
     const id = uuid.v4()
     this.replyHandlers.set(id, { cb })
     if (this.socketClient) {

@@ -1,6 +1,6 @@
 {
   "name": "electron-rabbit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple inter process communication to speed up your electron apps.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/okdistribute/electron-rabbit.git"
   },
   "keywords": [
-    "electron", 
+    "electron",
     "rpc",
     "ipc",
     "hidden window",

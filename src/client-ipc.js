@@ -43,7 +43,12 @@ class IPC {
     if (!cb) cb = function noop () {}
     this._connect(name, (client) => {
       client.on('message', data => {
-        const msg = JSON.parse(data)
+        var msg
+        try {
+          msg = JSON.parse(data)
+        } catch (err) {
+          console.error(err, data)
+        }
 
         if (msg.type === 'error') {
           const { id, result } = msg

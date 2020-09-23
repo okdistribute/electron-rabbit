@@ -2,35 +2,40 @@ const ipc = require('node-ipc')
 
 function init (socketName, handlers) {
   ipc.config.id = socketName
-  ipc.config.silent = true
+  ipc.config.logger = console.log
 
   ipc.serve(() => {
     ipc.server.on('message', (data, socket) => {
       const msg = JSON.parse(data)
       const { id, name, args } = msg
 
-      if (handlers[name]) {
-        handlers[name](args).then(
-          result => {
-            ipc.server.emit(
-              socket,
-              'message',
-              JSON.stringify({ type: 'reply', id, result })
-            )
-          },
-          error => {
-            // Up to you how to handle errors, if you want to forward
-            // them, etc
-            var name = 'error'
-            var args = error.stack
-            ipc.server.broadcast('message', JSON.stringify({ type: 'push', name, args }))
-            ipc.server.emit(
-              socket,
-              'message',
-              JSON.stringify({ type: 'error', id, result: error.message })
-            )
-          }
+      var onError = (error) => {
+        console.warn('Error', name, args)
+        console.error(error)
+        // Up to you how to handle errors, if you want to forward
+        // them, etc
+        ipc.server.emit(
+          socket,
+          'message',
+          JSON.stringify({ type: 'error', id, result: error.message })
         )
+      }
+
+      if (handlers[name]) {
+        let promise
+        try {
+          promise = handlers[name](args)
+        } catch (err) {
+          onError(err)
+        }
+
+        promise.then(result => {
+          ipc.server.emit(
+            socket,
+            'message',
+            JSON.stringify({ type: 'reply', id, result })
+          )
+        }).catch(onError)
       } else {
         console.warn('Unknown method: ' + name)
         ipc.server.emit(

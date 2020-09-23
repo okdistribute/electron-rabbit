@@ -1,6 +1,6 @@
 {
   "name": "electron-rabbit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple inter process communication to speed up your electron apps.",
   "main": "index.js",
   "scripts": {

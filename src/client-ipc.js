@@ -96,7 +96,6 @@ class IPC {
   }
 
   _connect (id, func) {
-    ipc.config.silent = true
     ipc.connectTo(id, () => {
       func(ipc.of[id])
     })

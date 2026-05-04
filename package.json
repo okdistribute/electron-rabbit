@@ -29,6 +29,6 @@
   "license": "MIT",
   "dependencies": {
     "node-ipc": "^9.1.1",
-    "uuid": "^7.0.2"
+    "uuid": "^14.0.0"
   }
 }
